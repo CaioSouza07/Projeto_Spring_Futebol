@@ -66,6 +66,9 @@ public class TimeService {
         if(Strings.isBlank(request.liga())){
             builder.append("Favor informar a liga atual!").append("\n");
         }
+        if(Strings.isBlank(request.emblema())){
+            builder.append("Favor informar o link do emblema!").append("\n");
+        }
 
         if (!builder.isEmpty()){
             throw new RuntimeException(builder.toString());
@@ -79,6 +82,7 @@ public class TimeService {
         time.setEstadio(request.estadio());
         time.setAnoFundacao(request.anoFundacao());
         time.setLiga(request.liga());
+        time.setEmblema(request.emblema());
 
         return timeRepository.save(time);
 
@@ -111,6 +115,9 @@ public class TimeService {
         if(Strings.isBlank(request.liga())){
             builder.append("Favor informar a liga atual!").append("\n");
         }
+        if(Strings.isBlank(request.emblema())){
+            builder.append("Favor informar o link do emblema!").append("\n");
+        }
 
         if (!builder.isEmpty()){
             throw new RuntimeException(builder.toString());
@@ -124,6 +131,7 @@ public class TimeService {
         time.setEstadio(request.estadio());
         time.setAnoFundacao(request.anoFundacao());
         time.setLiga(request.liga());
+        time.setEmblema(request.emblema());
 
         return timeRepository.save(time);
 

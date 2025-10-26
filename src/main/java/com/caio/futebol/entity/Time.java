@@ -18,6 +18,15 @@ public class Time {
     private int anoFundacao;
     private String estadio;
     private String liga;
+    private String emblema;
+
+    public String getEmblema() {
+        return emblema;
+    }
+
+    public void setEmblema(String emblema) {
+        this.emblema = emblema;
+    }
 
     public String getLiga() {
         return liga;
