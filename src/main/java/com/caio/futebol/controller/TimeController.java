@@ -1,6 +1,7 @@
 package com.caio.futebol.controller;
 
 import com.caio.futebol.dto.CriarTimeRequest;
+import com.caio.futebol.dto.EditarTimeRequest;
 import com.caio.futebol.service.TimeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -67,6 +68,43 @@ public class TimeController {
         return mv;
     }
 
+    // fazer aqui quando usuario acessa pagina para editar
+    @GetMapping("/editar/{id}")
+    public ModelAndView editar(@PathVariable("id") Long id){
+        var opcional = timeService.findById(id);
+        if(opcional.isEmpty()){
+            return new ModelAndView("time/sem_times");
+        }
+        var mv = new ModelAndView("editar_time");
+        var time = opcional.get();
+        var request = new EditarTimeRequest(
+                time.getId(),
+                time.getNome(),
+                time.getCidade(),
+                time.getEstado(),
+                time.getPais(),
+                time.getAnoFundacao(),
+                time.getEstadio(),
+                time.getLiga(),
+                time.getEmblema()
+        );
+        mv.addObject("editarTimeRequest", request);
+        return mv;
+    }
 
+    //aqui vou fazer quando o usuario salva a edicao POST
+    @PostMapping("/editar")
+    public ModelAndView editar(@ModelAttribute EditarTimeRequest request){
+        ModelAndView mv;
+        try{
+            var time = timeService.editar(request);
+            return new ModelAndView("redirect: /times/" + time.getId());
+        } catch (Exception e) {
+            mv = new ModelAndView("time/editar_time");
+            mv.addObject("editarTimeRequest", request);
+            mv.addObject("erro", e.getMessage());
+            return mv;
+        }
+    }
 
 }
