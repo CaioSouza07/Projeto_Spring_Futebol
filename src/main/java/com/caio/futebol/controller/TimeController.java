@@ -4,6 +4,7 @@ import com.caio.futebol.dto.CriarTimeRequest;
 import com.caio.futebol.dto.EditarTimeRequest;
 import com.caio.futebol.service.TimeService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -67,6 +68,7 @@ public class TimeController {
         mv.addObject("time",optional.get());
         return mv;
     }
+
 
     // fazer aqui quando usuario acessa pagina para editar
     @GetMapping("/editar/{id}")
