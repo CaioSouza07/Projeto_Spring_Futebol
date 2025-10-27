@@ -57,7 +57,7 @@ public class TimeService {
         if(Strings.isBlank(request.pais())){
             builder.append("Favor informar o país!").append("\n");
         }
-        if(request.anoFundacao() == 0){
+        if(request.anoFundacao() == null){
             builder.append("Favor informar o ano de fundação!").append("\n");
         }
         if(Strings.isBlank(request.estadio())){
@@ -106,7 +106,7 @@ public class TimeService {
         if(Strings.isBlank(request.pais())){
             builder.append("Favor informar o país!").append("\n");
         }
-        if(request.anoFundacao() == 0){
+        if(request.anoFundacao() == null){
             builder.append("Favor informar o ano de fundação!").append("\n");
         }
         if(Strings.isBlank(request.estadio())){

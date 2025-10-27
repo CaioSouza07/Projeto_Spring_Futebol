@@ -15,7 +15,7 @@ public class Time {
     private String cidade;
     private String estado;
     private String pais;
-    private int anoFundacao;
+    private Integer anoFundacao;
     private String estadio;
     private String liga;
     private String emblema;
@@ -76,11 +76,11 @@ public class Time {
         this.pais = pais;
     }
 
-    public int getAnoFundacao() {
+    public Integer getAnoFundacao() {
         return anoFundacao;
     }
 
-    public void setAnoFundacao(int anoFundacao) {
+    public void setAnoFundacao(Integer anoFundacao) {
         this.anoFundacao = anoFundacao;
     }
 
