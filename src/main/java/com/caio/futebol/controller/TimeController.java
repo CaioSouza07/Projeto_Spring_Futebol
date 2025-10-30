@@ -77,7 +77,7 @@ public class TimeController {
         if(opcional.isEmpty()){
             return new ModelAndView("time/sem_times");
         }
-        var mv = new ModelAndView("editar_time");
+        var mv = new ModelAndView("time/editar_time");
         var time = opcional.get();
         var request = new EditarTimeRequest(
                 time.getId(),
@@ -100,7 +100,7 @@ public class TimeController {
         ModelAndView mv;
         try{
             var time = timeService.editar(request);
-            return new ModelAndView("redirect: /times/" + time.getId());
+            return new ModelAndView("redirect:/times");
         } catch (Exception e) {
             mv = new ModelAndView("time/editar_time");
             mv.addObject("editarTimeRequest", request);

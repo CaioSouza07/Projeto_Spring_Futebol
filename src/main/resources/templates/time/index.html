@@ -1,10 +1,329 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>FutClub Community</title>
 </head>
 <body>
-  <h1>Aqui é onde vai ter os cards com os times</h1>
+<header class="navbar">
+    <div class="logo">
+        <img th:src="@{/img/logoAPP.png}" alt="FutClub Logo">
+    </div>
+    <nav>
+        <a href="/" >Home</a>
+        <a href="times" class="active">Times</a>
+    </nav>
+</header>
+<div class="titulo">
+    <h2>Times de Futebol</h2>
+</div>
+
+<div th:unless="${times.isEmpty}" class="times">
+    <div th:each="t : ${times}" class="timeDiv">
+        <img th:src="@{/img/3Pontinhos.png}" class="menuIcon" onclick="toggleMenu(this)">
+
+        <div class="menuDropdown">
+            <a th:href="@{/times/editar/{id}(id=${t.id})}">Editar</a>
+            <a th:href="@{/times/{id}(id=${t.id})}">Visualizar</a>
+            <button type="button" class="btn btn-error" onclick="document.getElementById('dialog-delete').showModal()">Excluir</button>
+        </div>
+
+        <!-- Modal de confirmação -->
+        <!-- Modal de confirmação -->
+        <dialog id="dialog-delete" class="modal">
+            <div class="modal-content">
+                <h3>Excluir time</h3>
+                <p>Tem certeza que deseja excluir este time?</p>
+                <div class="modal-buttons">
+                    <form method="dialog">
+                        <button class="btn-cancelar">Cancelar</button>
+                    </form>
+                    <form th:action="@{/times/deletar/{id}(id=${t.id})}" method="post">
+                        <input type="hidden" name="_method" value="DELETE"/>
+                        <button type="submit" class="btn-excluir">Sim, excluir</button>
+                    </form>
+                </div>
+            </div>
+        </dialog>
+
+
+        <img th:src="${t.emblema}" alt="Emblema do time" id="emblema">
+        <h2 th:text="${t.nome}">{t.nome}</h2>
+    </div>
+</div>
+
+<div class="bottom">
+    <a class="botao-adicionar" href="/times/criar">+</a>
+</div>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background-color: #F1F0F0;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #000;
+      color: white;
+      padding: 10px 40px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo img {
+      width: 120px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 30px;
+      font-weight: 500;
+      font-size: 20px;
+    }
+
+    nav a.active {
+      color: #F1AF15;
+      border-bottom: 2px solid #F1AF15;
+    }
+
+    nav a:hover{
+        color: white;
+        font-weight: 600;
+    }
+    .titulo{
+        text-align: center;
+        margin: 10px;
+    }
+    h2 {
+          font-size: 2.5rem;
+          margin: 0px;
+    }
+
+
+    .times {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .timeDiv {
+        position: relative; /* necessário para posicionar o dropdown */
+        background: linear-gradient(to bottom, #fff, #f1f1f1);
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        width: 150px;
+        height: 200px;
+        padding: 20px;
+        text-align: center;
+        transition: transform 0.2s;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .menuIcon {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+    }
+
+    .menuDropdown {
+        display: none; /* escondido por padrão */
+        position: absolute;
+        top: 35px;
+        right: 10px;
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        z-index: 10;
+        flex-direction: column;
+        min-width: 100px;
+    }
+
+    .menuDropdown a {
+        display: block;
+        padding: 5px 10px;
+        text-decoration: none;
+        color: #333;
+        font-size: 0.9em;
+        text-align: left;
+    }
+
+    .menuDropdown button {
+        display: block;
+        padding: 5px 10px;
+        text-align: left;
+        border: none;
+        background-color: transparent;
+        color: #333;
+        font-size: 0.9em;
+    }
+
+    .menuDropdown a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .menuDropdown button:hover {
+        background-color: #f1f1f1;
+    }
+
+    .timeDiv:hover{
+        transform: translateY(-5px);
+    }
+
+
+
+
+
+    /* Emblema do time */
+    #emblema {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      margin: 0 auto;
+    }
+
+    .timeDiv h2 {
+      margin-top: 10px;
+      font-size: 1.2em;
+      word-break: break-word;
+    }
+
+
+
+    .botao-adicionar{
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: black;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    transition: background-color 0.3s, transform 0.2s;
+    z-index: 9999;
+    }
+
+    .botao-adicionar:hover {
+        color: #F1AF15;
+        transform: translateY(-2px);
+    }
+
+    .modal {
+      border: none;
+      border-radius: 12px;
+      padding: 0;
+      width: 400px;
+      max-width: 90%;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+      background: #fff;
+      text-align: center;
+      font-family: 'Arial', sans-serif;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+
+    .modal::backdrop {
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-content {
+      padding: 25px;
+    }
+
+    .modal-content h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .modal-content p {
+      font-size: 15px;
+      color: #555;
+      margin-bottom: 25px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .btn-cancelar,
+    .btn-excluir {
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn-cancelar {
+      background-color: #2E7D32;
+      color: white;
+    }
+
+    .btn-cancelar:hover {
+      background-color: #256728;
+      transform: scale(1.05);
+    }
+
+    .btn-excluir {
+      background-color: #D32F2F;
+      color: white;
+    }
+
+    .btn-excluir:hover {
+      background-color: #b32727;
+      transform: scale(1.05);
+    }
+
+
+
+</style>
+
+<script>
+    function toggleMenu(el) {
+        // fecha todos os menus abertos antes
+        document.querySelectorAll('.menuDropdown').forEach(menu => {
+            if (menu !== el.nextElementSibling) menu.style.display = 'none';
+        });
+
+        const menu = el.nextElementSibling;
+        menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    // fecha menu se clicar fora
+    document.addEventListener('click', function(e) {
+        if (!e.target.classList.contains('menuIcon')) {
+            document.querySelectorAll('.menuDropdown').forEach(menu => menu.style.display = 'none');
+        }
+    });
+</script>
+
+
 </body>
 </html>

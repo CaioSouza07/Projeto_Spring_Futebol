@@ -84,6 +84,7 @@ public class TimeService {
         time.setLiga(request.liga());
         time.setEmblema(request.emblema());
 
+        System.out.println("CADASTRADO O TIME");
         return timeRepository.save(time);
 
     }
@@ -132,6 +133,7 @@ public class TimeService {
         time.setAnoFundacao(request.anoFundacao());
         time.setLiga(request.liga());
         time.setEmblema(request.emblema());
+
 
         return timeRepository.save(time);
 

@@ -1,10 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>FutClub Community</title>
 </head>
 <body>
-    <h1>Aqui vai ter a pagina sobre o futclub e o link para a pagina de times</h1>
+    <header class="navbar">
+        <div class="logo">
+            <img th:src="@{/img/logoAPP.png}" alt="FutClub Logo">
+        </div>
+        <nav>
+            <a href="/" class="active">Home</a>
+            <a href="times">Times</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <section class="textos">
+            <h2>BEM-VINDO!</h2>
+            <p class="subtitulo">FutClub Community ⚽</p>
+            <p class="descricao">
+                FutClub Community é uma comunidade para cadastrar seu time do coração!<br>
+                Adicione seu time e cadastre as informações atuais, atualize e divirta-se!
+            </p>
+            <a class="btn" href="/times">Começar!</a>
+        </section>
+        <section class="imagemDesigner">
+            <img th:src="@{/img/ImagemDesigner.png}" alt="Jogadores de bola">
+        </section>
+    </div>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #F1F0F0;
+        }
+
+        .navbar {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background-color: #000;
+          color: white;
+          padding: 10px 40px;
+        }
+
+        .logo {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .logo img {
+          width: 120px;
+        }
+
+        nav a {
+          color: white;
+          text-decoration: none;
+          margin-left: 30px;
+          font-weight: 500;
+          font-size: 20px;
+        }
+
+        nav a.active {
+          color: #F1AF15;
+          border-bottom: 2px solid #F1AF15;
+        }
+
+        nav a:hover{
+            color: white;
+            font-weight: 600;
+        }
+
+        .container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 60px;
+          padding: 60px 40px;
+        }
+
+        .textos {
+          max-width: 480px;
+        }
+
+        h2 {
+          font-size: 2.5rem;
+          margin-bottom: 0;
+        }
+
+        .subtitulo {
+          font-size: 1.5rem;
+          margin: 5px 0 20px;
+        }
+
+        .descricao {
+          font-size: 1.3rem;
+          margin-bottom: 40px;
+        }
+
+        .btn {
+          background-color: black;
+          color: white;
+          border: none;
+          border-radius: 25px;
+          padding: 12px 28px;
+          font-size: 1rem;
+          cursor: pointer;
+        }
+
+        .btn:hover {
+            color: #F1AF15;
+        }
+        .imagemDesigner img {
+            width: 620px;
+        }
+
+
+    </style>
 </body>
 </html>

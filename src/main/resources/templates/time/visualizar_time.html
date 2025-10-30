@@ -1,10 +1,246 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>FutClub Community</title>
 </head>
 <body>
-    <h1>Aqui é a pagina para o usuario verificar o cadastro de um time especifico</h1>
+<header class="navbar">
+    <div class="logo">
+        <img th:src="@{/img/logoAPP.png}" alt="FutClub Logo">
+    </div>
+    <nav>
+        <a href="/" >Home</a>
+        <a href="times" class="active">Times</a>
+    </nav>
+</header>
+
+<div class="container">
+
+    <h1 th:text="${time.nome}">Nome do time</h1>
+
+    <img th:src="${time.emblema}" alt="emblema" class="emblema">
+
+    <div class="info-card">
+        <p><strong>Ano Fundação:</strong> <span th:text="${time.anoFundacao}">{time.anoFundacao}</span></p>
+        <p><strong>Estádio:</strong> <span th:text="${time.estadio}">{time.estadio}</span></p>
+        <p><strong>Liga:</strong> <span th:text="${time.liga}">{time.liga}</span></p>
+        <p><strong>Cidade:</strong> <span th:text="${time.cidade}">{time.cidade}</span></p>
+        <p><strong>País:</strong> <span th:text="${time.pais}">{time.estadio}</span></p>
+    </div>
+
+    <div class="acoes">
+        <a th:href="@{/times/editar/{id}(id=${time.id})}" class="btn-editar">Editar Time</a>
+        <a href="/times" class="btn-voltar">Voltar</a>
+        <button class="btn-excluir" onclick="document.getElementById('dialog-delete').showModal()">Excluir</button>
+    </div>
+
+    <!-- Modal de exclusão -->
+    <dialog id="dialog-delete" class="modal">
+        <div class="modal-content">
+            <h3>Excluir time</h3>
+            <p>Tem certeza que deseja excluir este time?</p>
+            <div class="modal-buttons">
+                <form method="dialog">
+                    <button class="btn-cancelar">Cancelar</button>
+                </form>
+                <form th:action="@{/times/deletar/{id}(id=${time.id})}" method="post">
+                    <input type="hidden" name="_method" value="DELETE"/>
+                    <button type="submit" class="btn-excluir">Sim, excluir</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+
+</div>
+
+<style>
+
+    body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background-color: #F1F0F0;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #000;
+      color: white;
+      padding: 10px 40px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo img {
+      width: 120px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 30px;
+      font-weight: 500;
+      font-size: 20px;
+    }
+
+    nav a.active {
+      color: #F1AF15;
+      border-bottom: 2px solid #F1AF15;
+    }
+
+    nav a:hover{
+        color: white;
+        font-weight: 600;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column; /* empilha verticalmente */
+      align-items: center;    /* centraliza horizontalmente */
+      text-align: center;
+      background-color: #f4f4f4;
+      padding: 20px 0;
+      min-height: calc(100vh - 80px);
+    }
+
+    .container h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+      color: #000;
+    }
+
+    .emblema {
+      width: 150px;
+      margin-bottom: 25px;
+    }
+
+    .info-card {
+      background: white;
+      display: inline-block;
+      padding: 20px 35px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: left;
+      font-size: 16px;
+      line-height: 1.6;
+      width: 300px;
+    }
+
+    .info-card p strong {
+      color: #000;
+    }
+
+    .acoes {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .btn-editar, .btn-voltar, .btn-excluir {
+      border: none;
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      color: white;
+    }
+
+    .btn-editar {
+      background-color: #000;
+    }
+
+    .btn-voltar {
+      background-color: #000;
+    }
+
+    .btn-excluir {
+      background-color: #D32F2F;
+    }
+
+    .btn-editar:hover { background-color: #333; }
+    .btn-voltar:hover { background-color: #333; }
+    .btn-excluir:hover { background-color: #b32727; }
+
+    .modal {
+      border: none;
+      border-radius: 12px;
+      padding: 0;
+      width: 400px;
+      max-width: 90%;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+      background: #fff;
+      text-align: center;
+      font-family: 'Arial', sans-serif;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+
+    .modal::backdrop {
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-content {
+      padding: 25px;
+    }
+
+    .modal-content h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .modal-content p {
+      font-size: 15px;
+      color: #555;
+      margin-bottom: 25px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .btn-cancelar,
+    .btn-excluir {
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn-cancelar {
+      background-color: #2E7D32;
+      color: white;
+    }
+
+    .btn-cancelar:hover {
+      background-color: #256728;
+      transform: scale(1.05);
+    }
+
+    .btn-excluir {
+      background-color: #D32F2F;
+      color: white;
+    }
+
+    .btn-excluir:hover {
+      background-color: #b32727;
+      transform: scale(1.05);
+    }
+
+
+</style>
+
 </body>
 </html>
