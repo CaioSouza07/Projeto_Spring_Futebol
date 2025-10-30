@@ -79,10 +79,48 @@
 
     </form>
 
-    <div class="card-preview">
-        <h2 id="preview">Preview</h2>
+    <!-- Preview do card -->
+    <div class="card-preview" id="card-preview">
+        <h2 id="preview-nome">Nome do time</h2>
+        <img id="preview-emblema" src="" alt="" style="width:120px; display:none; margin:10px auto;">
+        <p><strong>Ano Fundação:</strong> <span id="preview-ano"></span></p>
+        <p><strong>Estádio:</strong> <span id="preview-estadio"></span></p>
+        <p><strong>Liga:</strong> <span id="preview-liga"></span></p>
+        <p><strong>Cidade:</strong> <span id="preview-cidade"></span></p>
+        <p><strong>Estado:</strong> <span id="preview-estado"></span></p>
+        <p><strong>País:</strong> <span id="preview-pais"></span></p>
     </div>
 </div>
+
+<script>
+    const campos = ['nome', 'emblema', 'anoFundacao', 'estadio', 'liga', 'cidade', 'estado', 'pais'];
+    campos.forEach(id => {
+      document.getElementById(id).addEventListener('input', atualizarPreview);
+    });
+
+    function atualizarPreview() {
+      document.getElementById('preview-nome').textContent = document.getElementById('nome').value || 'Nome do time';
+      const img = document.getElementById('preview-emblema');
+      const link = document.getElementById('emblema').value;
+      if (link) {
+        img.src = link;
+        img.style.display = 'block';
+      } else {
+        img.style.display = 'none';
+      }
+      document.getElementById('preview-ano').textContent = document.getElementById('anoFundacao').value;
+      document.getElementById('preview-estadio').textContent = document.getElementById('estadio').value;
+      document.getElementById('preview-liga').textContent = document.getElementById('liga').value;
+      document.getElementById('preview-cidade').textContent = document.getElementById('cidade').value;
+      document.getElementById('preview-estado').textContent = document.getElementById('estado').value;
+      document.getElementById('preview-pais').textContent = document.getElementById('pais').value;
+    }
+
+    window.addEventListener('DOMContentLoaded', atualizarPreview)
+
+
+</script>
+
 <style>
     body {
         margin: 0;

@@ -5,84 +5,121 @@
     <title>FutClub Community</title>
 </head>
 <body>
-    <header class="navbar">
-        <div class="logo">
-            <img th:src="@{/img/logoAPP.png}" alt="FutClub Logo">
-        </div>
-        <nav>
-            <a href="/" >Home</a>
-            <a href="times" class="active">Times</a>
-        </nav>
-    </header>
-    <div class="titulo">
-        <h2>Cadastro de Time</h2>
+<header class="navbar">
+    <div class="logo">
+        <img th:src="@{/img/logoAPP.png}" alt="FutClub Logo">
     </div>
-    <div class="container">
-        <form class="card-cadastro"
-              th:action="@{/times/criar}"
-              method="post"
-              th:object="${criarTimeRequest}"
-        >
+    <nav>
+        <a href="/">Home</a>
+        <a href="times" class="active">Times</a>
+    </nav>
+</header>
 
-            <h2>Informações Gerais</h2>
+<div class="titulo">
+    <h2>Cadastro de Time</h2>
+</div>
 
-            <div class="info-grupo">
-                <div class="info">
-                    <label>Nome do time</label>
-                    <input type="text" th:field="*{nome}" placeholder="Digite o nome do time" required>
-                </div>
+<div class="container">
+    <form id="form-time" class="card-cadastro" th:action="@{/times/criar}" method="post" th:object="${criarTimeRequest}">
+        <h2>Informações Gerais</h2>
+
+        <div class="info-grupo">
+            <div class="info">
+                <label>Nome do time</label>
+                <input type="text" th:field="*{nome}" placeholder="Digite o nome do time" id="nome" required>
             </div>
-
-            <div class="info-grupo">
-                <div class="info">
-                    <label>Emblema</label>
-                    <input type="text" placeholder="Cole o link do emblema" th:field="*{emblema}" required>
-                </div>
-                <div class="info">
-                    <label>Ano Fundação</label>
-                    <input type="number" placeholder="Ano de fundação do clube" th:field="*{anoFundacao}" required>
-                </div>
-            </div>
-
-            <div class="info-grupo">
-                <div class="info">
-                    <label>Estádio</label>
-                    <input type="text" placeholder="Estádio do clube" th:field="*{estadio}" required>
-                </div>
-                <div class="info">
-                    <label>Liga</label>
-                    <input type="text" placeholder="Liga atual" th:field="*{liga}" required>
-                </div>
-            </div>
-
-            <div class="info-grupo">
-                <div class="info">
-                    <label>Cidade</label>
-                    <input type="text" placeholder="Digite a cidade do clube" th:field="*{cidade}" required>
-                </div>
-                <div class="info">
-                    <label>Estado</label>
-                    <input type="text" placeholder="Digite o estado do clube" th:field="*{estado}" required>
-                </div>
-                <div class="info">
-                    <label>País</label>
-                    <input type="text" placeholder="Digite o país do clube" th:field="*{pais}" required>
-                </div>
-            </div>
-
-            <div class="buttons">
-                <button class="btn btn-salvar" type="submit">Salvar</button>
-                <a class="btn btn-cancelar" href="/times">Cancelar</a>
-            </div>
-
-        </form>
-
-        <div class="card-preview">
-            <h2 id="preview">Preview</h2>
         </div>
+
+        <div class="info-grupo">
+            <div class="info">
+                <label>Emblema</label>
+                <input type="text" placeholder="Cole o link do emblema" th:field="*{emblema}" id="emblema" required>
+            </div>
+            <div class="info">
+                <label>Ano Fundação</label>
+                <input type="number" placeholder="Ano de fundação do clube" th:field="*{anoFundacao}" id="anoFundacao" required>
+            </div>
+        </div>
+
+        <div class="info-grupo">
+            <div class="info">
+                <label>Estádio</label>
+                <input type="text" placeholder="Estádio do clube" th:field="*{estadio}" id="estadio" required>
+            </div>
+            <div class="info">
+                <label>Liga</label>
+                <input type="text" placeholder="Liga atual" th:field="*{liga}" id="liga" required>
+            </div>
+        </div>
+
+        <div class="info-grupo">
+            <div class="info">
+                <label>Cidade</label>
+                <input type="text" placeholder="Digite a cidade do clube" th:field="*{cidade}" id="cidade" required>
+            </div>
+            <div class="info">
+                <label>Estado</label>
+                <input type="text" placeholder="Digite o estado do clube" th:field="*{estado}" id="estado" required>
+            </div>
+            <div class="info">
+                <label>País</label>
+                <input type="text" placeholder="Digite o país do clube" th:field="*{pais}" id="pais" required>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button class="btn btn-salvar" type="submit" id="btnSalvar">Salvar</button>
+            <a class="btn btn-cancelar" href="/times">Cancelar</a>
+        </div>
+    </form>
+
+    <!-- Preview do card -->
+    <div class="card-preview" id="card-preview">
+        <h2 id="preview-nome">Nome do time</h2>
+        <img id="preview-emblema" src="" alt="" style="width:120px; display:none; margin:10px auto;">
+        <p><strong>Ano Fundação:</strong> <span id="preview-ano"></span></p>
+        <p><strong>Estádio:</strong> <span id="preview-estadio"></span></p>
+        <p><strong>Liga:</strong> <span id="preview-liga"></span></p>
+        <p><strong>Cidade:</strong> <span id="preview-cidade"></span></p>
+        <p><strong>Estado:</strong> <span id="preview-estado"></span></p>
+        <p><strong>País:</strong> <span id="preview-pais"></span></p>
     </div>
-    <style>
-        body {
+</div>
+
+
+
+<script>
+
+    const campos = ['nome', 'emblema', 'anoFundacao', 'estadio', 'liga', 'cidade', 'estado', 'pais'];
+    campos.forEach(id => {
+      document.getElementById(id).addEventListener('input', atualizarPreview);
+    });
+
+    function atualizarPreview() {
+      document.getElementById('preview-nome').textContent = document.getElementById('nome').value || 'Nome do time';
+      const img = document.getElementById('preview-emblema');
+      const link = document.getElementById('emblema').value;
+      if (link) {
+        img.src = link;
+        img.style.display = 'block';
+      } else {
+        img.style.display = 'none';
+      }
+      document.getElementById('preview-ano').textContent = document.getElementById('anoFundacao').value;
+      document.getElementById('preview-estadio').textContent = document.getElementById('estadio').value;
+      document.getElementById('preview-liga').textContent = document.getElementById('liga').value;
+      document.getElementById('preview-cidade').textContent = document.getElementById('cidade').value;
+      document.getElementById('preview-estado').textContent = document.getElementById('estado').value;
+      document.getElementById('preview-pais').textContent = document.getElementById('pais').value;
+    }
+
+
+
+</script>
+
+<style>
+
+    body {
             margin: 0;
             font-family: 'Inter', sans-serif;
             background-color: #F1F0F0;
@@ -261,6 +298,7 @@
             text-align: center;
         }
 
-    </style>
+
+</style>
 </body>
 </html>
